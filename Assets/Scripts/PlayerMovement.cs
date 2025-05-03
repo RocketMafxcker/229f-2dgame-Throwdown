@@ -4,7 +4,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public float maxSpeed = 10f;
     bool facingRight = true;
-    public float jumpForce = 700.0f;
+    public float jumpForce = 500f;
     public bool isGrounded;
     public float checkRadius = 0.2f;
 
