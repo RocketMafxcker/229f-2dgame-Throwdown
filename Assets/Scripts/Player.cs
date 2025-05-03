@@ -1,24 +1,27 @@
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
+using UnityEngine.UI;
 
-public class Player : MonoBehaviour
+public class Player : Character
 {
-    [SerializeField]int health = 100;
     [SerializeField] Transform shootPoint;
     [SerializeField] GameObject target;
     [SerializeField] Rigidbody2D ballBulletPrefab;
-    [SerializeField] Rigidbody2D swordBulletPrefab;
+    [SerializeField] GameObject swordBulletPrefab;
     [SerializeField] Collider2D areaLimit;
+    [SerializeField] Button ball;
+    [SerializeField] Button sword;
+    string chooseWeapon;
 
+    private void Start()
+    {
+        Init(100);
+    }
     void Update()
     {
-        if (health <= 0)
-        {
-            Debug.Log("You Dead");
-            Destroy(gameObject);
-        }
-
         //Shoot
+        ball.onClick.AddListener(() => chooseWeapon = "ball");
+        sword.onClick.AddListener(() => chooseWeapon = "sword");
         Vector2 mouseWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         if (areaLimit.OverlapPoint(mouseWorld))
         {
@@ -29,23 +32,28 @@ public class Player : MonoBehaviour
                 Debug.DrawRay(ray.origin, ray.direction * 5f, Color.red, 5f);
 
                 RaycastHit2D hit = Physics2D.GetRayIntersection(ray, Mathf.Infinity);
-                if (hit.collider != null)
+                if (hit.collider != null && chooseWeapon == "ball")
                 {
                     Vector2 projectileVelocity = CalculateProjectileVelocity(shootPoint.position, hit.point, 1f);
 
                     Rigidbody2D shootBullet = Instantiate(ballBulletPrefab, shootPoint.position, Quaternion.identity);
 
                     shootBullet.linearVelocity = projectileVelocity;
+                    Destroy(shootBullet, 5f);
                 }
-            }
+                if (hit.collider != null && chooseWeapon == "sword")
+                {
+                    GameObject obj = Instantiate(swordBulletPrefab, shootPoint.position, shootPoint.rotation);
+                    Sword sword = obj.GetComponent<Sword>();
+                }
+            }     
         } 
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.CompareTag("Enemy"))
         {
-            health -= 10;
-            Debug.Log(health);
+            TakeDamage(10);
         }
     }
     Vector2 CalculateProjectileVelocity(Vector2 origin, Vector2 target, float time)
