@@ -2,26 +2,18 @@ using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 using UnityEngine.UI;
 
-public class Player : Character
+public class Player : MonoBehaviour
 {
-    [SerializeField] Transform shootPoint;
+    [SerializeField] int health = 50;
+
+    [field: SerializeField] public Transform shootPoint {  get; set; } 
     [SerializeField] GameObject target;
     [SerializeField] Rigidbody2D ballBulletPrefab;
-    [SerializeField] GameObject swordBulletPrefab;
     [SerializeField] Collider2D areaLimit;
-    [SerializeField] Button ball;
-    [SerializeField] Button sword;
-    string chooseWeapon;
 
-    private void Start()
-    {
-        Init(100);
-    }
     void Update()
     {
         //Shoot
-        ball.onClick.AddListener(() => chooseWeapon = "ball");
-        sword.onClick.AddListener(() => chooseWeapon = "sword");
         Vector2 mouseWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         if (areaLimit.OverlapPoint(mouseWorld))
         {
@@ -32,19 +24,13 @@ public class Player : Character
                 Debug.DrawRay(ray.origin, ray.direction * 5f, Color.red, 5f);
 
                 RaycastHit2D hit = Physics2D.GetRayIntersection(ray, Mathf.Infinity);
-                if (hit.collider != null && chooseWeapon == "ball")
+                if (hit.collider != null)
                 {
                     Vector2 projectileVelocity = CalculateProjectileVelocity(shootPoint.position, hit.point, 1f);
 
                     Rigidbody2D shootBullet = Instantiate(ballBulletPrefab, shootPoint.position, Quaternion.identity);
 
                     shootBullet.linearVelocity = projectileVelocity;
-                    Destroy(shootBullet, 5f);
-                }
-                if (hit.collider != null && chooseWeapon == "sword")
-                {
-                    GameObject obj = Instantiate(swordBulletPrefab, shootPoint.position, shootPoint.rotation);
-                    Sword sword = obj.GetComponent<Sword>();
                 }
             }     
         } 
@@ -65,5 +51,19 @@ public class Player : Character
 
         Vector2 projectileVelocity = new Vector2(velocityX, velocityY);
         return projectileVelocity;
+    }
+    public bool IsDead()
+    {
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+            return true;
+        }
+        else return false;
+    }
+    public void TakeDamage(int _damage)
+    {
+        health -= _damage;
+        IsDead();
     }
 }

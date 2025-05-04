@@ -1,16 +1,22 @@
 using UnityEngine;
 
-public class Ball : Weapon
+public class Ball : MonoBehaviour
 {
     private void Start()
     {
-        Damage = 10;
     }
-    public override void OnHitWith(Character character)
+    void OnTriggerEnter2D(Collider2D other)
     {
-
-        if (character is Enemy)
-            character.TakeDamage(this.Damage);
-        Destroy(this);
+        if (other.CompareTag("Enemy"))
+        {
+            Destroy(this.gameObject, 0.1f);
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            Destroy(this);
+        }
     }
 }

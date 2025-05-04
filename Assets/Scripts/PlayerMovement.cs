@@ -4,7 +4,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public float maxSpeed = 10f;
     bool facingRight = true;
-    public float jumpForce = 500f;
+    public float jumpForce = 250f;
     public bool isGrounded;
     public float checkRadius = 0.2f;
 
@@ -65,7 +65,6 @@ public class PlayerMovement : MonoBehaviour
     }
     void OnCollisionEnter2D(Collision2D collision)
     {
-        // ถ้าชนกับวัตถุที่อยู่ใน Layer ชื่อว่า "Ground"
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             isGrounded = true;

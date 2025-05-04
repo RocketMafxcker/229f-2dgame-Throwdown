@@ -1,9 +1,13 @@
 using UnityEngine;
 
-public class EnemyTwo : MonoBehaviour
+public class EnemyBoxOpen : MonoBehaviour
 {
-    int health = 20;
-    [SerializeField] GameObject boss;
+    int health = 10;
+    [SerializeField] GameObject box;
+    private void Start()
+    {
+        box.SetActive(false);
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Weapon"))
@@ -11,7 +15,7 @@ public class EnemyTwo : MonoBehaviour
             health -= 5;
             if (health <= 0)
             {
-                boss.SetActive(true);
+                box.SetActive(true);
                 Destroy(gameObject);
             }
         }

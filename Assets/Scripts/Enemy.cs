@@ -1,10 +1,24 @@
 using UnityEngine;
+using System.Collections;
 
-public abstract class Enemy : Character
+public class Enemy : MonoBehaviour
 {
-    private void Start()
+    [SerializeField] public int health;
+
+    public virtual void Init(int newHealth)
     {
-        Behavior();
+        health = newHealth;
     }
-    public abstract void Behavior();
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Weapon"))
+        {
+            health -= 5;
+            if (health <= 0)
+            {
+                Destroy(gameObject);
+            }
+        }
+    }
 }
