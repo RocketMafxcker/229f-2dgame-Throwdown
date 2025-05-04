@@ -4,12 +4,13 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] int health = 50;
+    [SerializeField] int health = 100;
 
     [field: SerializeField] public Transform shootPoint {  get; set; } 
     [SerializeField] GameObject target;
     [SerializeField] Rigidbody2D ballBulletPrefab;
     [SerializeField] Collider2D areaLimit;
+    [SerializeField] Slider healthSlider;
 
     void Update()
     {
@@ -33,7 +34,12 @@ public class Player : MonoBehaviour
                     shootBullet.linearVelocity = projectileVelocity;
                 }
             }     
-        } 
+        }
+        //IsFall
+        if(transform.position.y <= -10)
+        {
+            
+        }
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -64,6 +70,7 @@ public class Player : MonoBehaviour
     public void TakeDamage(int _damage)
     {
         health -= _damage;
+        healthSlider.value = health;
         IsDead();
     }
 }

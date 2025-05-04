@@ -13,18 +13,7 @@ public class Boss : Enemy
     {
         if(gameObject.activeSelf)
         {
-            Invoke("OpenTrapTwo", 3f);
-            Invoke("OpenTrapOne", 3f);
+            twoTrap.SetActive(true);
         }
-    }
-    void OpenTrapTwo()
-    {
-        twoTrap.SetActive(true);
-        oneTrap.SetActive(false);
-    }
-    void OpenTrapOne()
-    {
-        twoTrap.SetActive(false);
-        oneTrap.SetActive(true);
     }
 }

@@ -2,8 +2,12 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    private void Start()
+    private void Update()
     {
+        if (transform.position.y <= -10)
+        {
+            Destroy(this);
+        }
     }
     void OnTriggerEnter2D(Collider2D other)
     {
