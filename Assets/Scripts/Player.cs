@@ -1,6 +1,7 @@
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -38,7 +39,7 @@ public class Player : MonoBehaviour
         //IsFall
         if(transform.position.y <= -10)
         {
-            
+            SceneManager.LoadScene(3);
         }
     }
     private void OnCollisionEnter2D(Collision2D collision)
@@ -62,7 +63,7 @@ public class Player : MonoBehaviour
     {
         if (health <= 0)
         {
-            Destroy(gameObject);
+            SceneManager.LoadScene(3);
             return true;
         }
         else return false;

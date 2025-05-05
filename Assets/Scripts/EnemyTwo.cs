@@ -2,8 +2,13 @@ using UnityEngine;
 
 public class EnemyTwo : MonoBehaviour
 {
-    int health = 20;
+    int health;
     [SerializeField] GameObject boss;
+
+    private void Start()
+    {
+        health = 20;
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Weapon"))
