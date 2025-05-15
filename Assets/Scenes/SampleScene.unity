@@ -3485,7 +3485,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e48416e762e8934584b6e418edfede8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 30
   oneTrap: {fileID: 1894712046}
   twoTrap: {fileID: 516081331}
 --- !u!1 &368280920
